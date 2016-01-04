@@ -1,10 +1,14 @@
 
-![](http://i.imgur.com/O89JmOd.gif)
+![](http://i.imgur.com/Illmtbb.gif)
 
 An interactive guide to thinking in systems.
 **[READ/PLAY HERE](http://ncase.me/simulating)**
 
 Made by Nicky Case: [@ncasenmare](https://twitter.com/ncasenmare) | [ncase.me](http://ncase.me)
+Modified by Jonathan Bobrow: [@jonathanbobrow](https://twitter.com/jonathanbobrow) | [jonbobrow.com](http://jonbobrow.com)
+
+**AutomaTiles**
+What are they? Well, they are Jonathan's thesis work at MIT Media Lab, where he is developing tangible tools for playing with systems thinking. Find out more about Automatiles on the [process blog](http://automatiles.tumblr.com)
 
 Dedicated to the public domain with [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/)! I'm giving away all my art/code/words, so that you teachers, scientists, hobbyists, activists, and emoji-lovers can use them however you like! This is for you. 💜
 
