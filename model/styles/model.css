@@ -45,6 +45,52 @@ THE GRID
 	border: 1px solid #eee;
 }
 
+/**************
+HEXAGONAL GRID (AUTOMATILES MOD)
+***************/
+
+.hex:before {
+	content: " ";
+	width: 0; height: 0;
+	border-bottom: 15px solid rgba(235,255,235,0.3);
+	border-left: 26px solid transparent;
+	border-right: 26px solid transparent;
+	position: absolute;
+	top: -15px;
+}
+
+.hex {
+	margin-top: 15px;
+	width: 52px;
+	height: 30px;
+	/*    background-image: url("assets/hexagon_bg.png");
+        background-size: 90%;
+        overflow: visible;
+        background-repeat: no-repeat;
+        background-position: -25%;
+        background-clip: padding-box;
+    */    background-color: rgba(235,255,235,0.3);
+	position: relative;
+	text-align: center;
+}
+
+.hex:after {
+	content: "";
+	width: 0;
+	position: absolute;
+	bottom: -15px;
+	border-top: 15px solid rgba(235,255,235,0.3);
+	border-left: 26px solid transparent;
+	border-right: 26px solid transparent;
+}
+
+.hex-row {
+	clear: left;
+}
+.hex-row.even {
+	margin-left: 0px;
+}
+
 /***************
 THE EDITOR
 ***************/

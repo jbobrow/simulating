@@ -133,35 +133,73 @@ Grid.updateSize = function(){
 	var maxHeight = Grid.domContainer.clientHeight;
 	var w = Grid.array[0].length;
 	var h = Grid.array.length;
-	var t = Math.min(Math.floor(maxWidth/w), Math.floor(maxHeight/h));
+	var fitWidth = Math.floor(maxWidth/(w*Math.sqrt(3)));
+	var fitHeight = Math.floor(maxHeight/(h*2));
+	var t = fitWidth; //Math.min(fitWidth, fitHeight);
+	// for hexagons, our width and height will be a lil different, thanks math! (not sarcastic... seriously, thanks math! :)
+	var t_h = 2 * t;
+	var t_w = Math.sqrt(3) * t;
 	Grid.tileSize = t;
 
 	// STYLE
 	var css = "";
-	css += "#grid{ width:"+(w*t)+"px; height:"+(h*t)+"px; font-size:"+t+"px; }\n";
-	css += "#grid>div{ width:"+(w*t)+"px; height:"+t+"px; }\n";
-	css += "#grid>div>div{ width:"+t+"px; height:"+t+"px; }\n";
-	css += "#grid_bg{ width:"+(w*t)+"px; height:"+(h*t)+"px; font-size:"+t+"px; }\n";
-	//css += "#grid_bg>div{ width:"+(w*t)+"px; height:"+t+"px; }\n";
-	css += "#grid_bg>div{ width:"+(w*(t+2))+"px; height:"+t+"px; }\n"; // +2 for the zoom bug.
-	css += "#grid_bg>div>div{ width:"+(t-2)+"px; height:"+(t-2)+"px; }\n";
+	css += "#grid{ width:"+((w+2)*t_w)+"px; height:"+(h*t_h)+"px; font-size:"+t+"px; }\n";
+	css += "#grid>div{ width:"+((w+2)*t_w)+"px; height:"+(3*t/2)+"px; }\n";
+	css += "#grid>div>div{ width:"+t_w+"px; height:"+t+"px; line-height:"+(3*t/2)+"px; }\n";
+	css += "#grid_bg{ width:"+((w+2)*t_w)+"px; height:"+(h*t_h)+"px; font-size:"+t+"px; }\n";
+	css += "#grid_bg>div{ width:"+((w+2)*t_w)+"px; height:"+(3*t/2)+"px; }\n";
+	css += "#grid_bg>div>div{ width:"+(t_w-2)+"px; height:"+(t-2)+"px; line-height:"+(3*t/2)+"px; }\n";
+	// update details of hexagon grid according to grid size
+	var hex_space = t * Math.sqrt(3) / 6;
+	var hex_color = "rgba(255,255,255,0.1)"
+	css += ".hex:before{ top:"+(-t/2)+"px; left:"+(t*Math.sqrt(3)/60)+"px; border-bottom:"+(2*hex_space - t/20)+"px solid "+hex_color+"; border-left:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; border-right:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; }\n";
+	css += ".hex:after{ bottom:"+(-t/2)+"px; left:"+(t*Math.sqrt(3)/60)+"px; border-top:"+(2*hex_space - t/20)+"px solid "+hex_color+"; border-left:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; border-right:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; }\n";
+	css += ".hex{ background-color:"+hex_color+"; margin: "+0+"px "+(t/20)+"px; }"; //padding:"+(t/2)+"px 0;
+	// just for the background
+	css += ".hex_bg:before{ top:"+(-t/2)+"px; left:"+(t*Math.sqrt(3)/60)+"px; border-bottom:"+(2*hex_space - t/20)+"px solid rgba(255,255,255,0.0); border-left:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; border-right:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; }\n";
+	css += ".hex_bg:after{ bottom:"+(-t/2)+"px; left:"+(t*Math.sqrt(3)/60)+"px; border-top:"+(2*hex_space - t/20)+"px solid rgba(255,255,255,0.0); border-left:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; border-right:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; }\n";
+	css += ".hex_bg{ background-color: rgba(255,255,255,0.0); margin: "+0+"px "+(t/20)+"px; }"; //padding:"+(t/2)+"px 0;
+	// alternate row spacing
+	css += ".hex-row.even{ margin-left:"+(t_w/2)+"px; }\n";
+
 	Grid.css.innerHTML = css;
 
 	// HTML JUST FOR THE GRID BACKGROUND
 	var html = "";
 	for(var y=0;y<Grid.array.length;y++){
-		html += "<div>";
-		for(var x=0;x<Grid.array[0].length;x++) html += "<div></div>";
+		// class label even and odd rows
+		if(y % 2 === 0)
+			html += "<div class='hex-row even'>";
+		else
+			html += "<div class='hex-row'>";
+
+		for(var x=0;x<Grid.array[0].length;x++){
+			html += "<div class='hex_bg'></div>";
+		}
 		html += "</div>";
 	}
 	Grid.bg.innerHTML = html;
 
 	// HTML FOR THE REAL GRID
-	Grid.dom.innerHTML = html;
+	html = "";
+	// change the div headers from background to regular
+	for(var y=0;y<Grid.array.length;y++){
+		// class label even and odd rows
+		if(y % 2 === 0)
+			html += "<div class='hex-row even'>";
+		else
+			html += "<div class='hex-row'>";
 
+		for(var x=0;x<Grid.array[0].length;x++){
+			html += "<div class='hex'></div>";
+		}
+		html += "</div>";
+	}
+
+	Grid.dom.innerHTML = html;
 };
-subscribe("/grid/updateSize",Grid.updateSize,false);
-subscribe("ui/resize",Grid.updateSize,false);
+	subscribe("/grid/updateSize",Grid.updateSize,false);
+	subscribe("ui/resize",Grid.updateSize,false);
 
 Grid.updateAgents = function(){
 
@@ -189,6 +227,7 @@ subscribe("/grid/updateAgents",Grid.updateAgents);
 
 Grid.NEIGHBORHOOD_MOORE = "moore";
 Grid.NEIGHBORHOOD_NEUMANN = "neumann";
+	Grid.NEIGHBORHOOD_AUTOMATILE = "hexagon";
 Grid.getNeighbors = function(agent){
 
 	// Oh WOW Polygon's get-neighbor code was O(n^2) what the FU--
@@ -200,7 +239,25 @@ Grid.getNeighbors = function(agent){
 	// What kinda neighborhood
 	var coords;
 	var hood = Model.data.world.neighborhood;
-	if(hood==Grid.NEIGHBORHOOD_MOORE){
+	// Hexagon hoods a a bit different, but no biggie, let's ask math again :)
+	if(true || hood==Grid.NEIGHBORHOOD_AUTOMATILE) {
+		if (y % 2 == 0) {
+			// on an even row
+			coords = [
+				[x-0,y-1],  [x+1,y-1],
+				[x-1,y],      [x+1,y],
+				[x-0,y+1],  [x+1,y+1]
+			];
+		}
+		else {
+			coords = [
+				[x-1,y-1],  [x+0,y-1],
+				[x-1,y],      [x+1,y],
+				[x-1,y+1],  [x+0,y+1]
+			];
+		}
+	}
+	else if(hood==Grid.NEIGHBORHOOD_MOORE){
 		coords = [
 			[x-1,y-1], [x,  y-1], [x+1,y-1],
 			[x-1,y  ],            [x+1,y  ],
