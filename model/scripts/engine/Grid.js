@@ -151,7 +151,7 @@ Grid.updateSize = function(){
 	css += "#grid_bg>div>div{ width:"+(t_w-2)+"px; height:"+(t-2)+"px; line-height:"+(3*t/2)+"px; }\n";
 	// update details of hexagon grid according to grid size
 	var hex_space = t * Math.sqrt(3) / 6;
-	var hex_color = "rgba(255,255,255,0.1)"
+	var hex_color = "rgba(0,0,0,0.1)"
 	css += ".hex:before{ top:"+(-t/2)+"px; left:"+(t*Math.sqrt(3)/60)+"px; border-bottom:"+(2*hex_space - t/20)+"px solid "+hex_color+"; border-left:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; border-right:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; }\n";
 	css += ".hex:after{ bottom:"+(-t/2)+"px; left:"+(t*Math.sqrt(3)/60)+"px; border-top:"+(2*hex_space - t/20)+"px solid "+hex_color+"; border-left:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; border-right:"+(t_w/2 - t*Math.sqrt(3)/60)+"px solid transparent; }\n";
 	css += ".hex{ background-color:"+hex_color+"; margin: "+0+"px "+(t/20)+"px; }"; //padding:"+(t/2)+"px 0;
@@ -162,6 +162,7 @@ Grid.updateSize = function(){
 	// alternate row spacing
 	css += ".hex-row.even{ margin-left:"+(t_w/2)+"px; }\n";
 
+	// Apply CSS
 	Grid.css.innerHTML = css;
 
 	// HTML JUST FOR THE GRID BACKGROUND
