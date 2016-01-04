@@ -61,8 +61,8 @@
     ],
     "world": {
         "size": {
-            "width": 30,
-            "height": 28
+            "width": 20,
+            "height": 20
         },
         "proportions": [
             {
