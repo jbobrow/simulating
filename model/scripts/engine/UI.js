@@ -153,10 +153,31 @@ var MouseLast = { x:0, y:0 };
 var MouseTiles = [];
 var getRealMouse = function(event){
 
-	Mouse.x = Math.floor((event.clientX - Grid.dom.offsetLeft)/Grid.tileSize); // from 0 to Width
-	Mouse.y = Math.floor((event.clientY - Grid.dom.offsetTop)/Grid.tileSize); // from 0 to Height
+	//Mouse.x = Math.floor((event.clientX - Grid.dom.offsetLeft)/Grid.tileSize); // from 0 to Width
+	//Mouse.y = Math.floor((event.clientY - Grid.dom.offsetTop)/Grid.tileSize); // from 0 to Height
 
+    var rx = event.clientX - Grid.dom.offsetLeft;
+    var ry = event.clientY - Grid.dom.offsetTop;
+
+    // all for the love of hexagons
+    var padding = Grid.tileSize*Math.sqrt(3)/20;
+    var tileWidth = Math.sqrt(3) * Grid.tileSize + padding;
+    var tileHeight = (1.5) * Grid.tileSize;
+
+    // for hexagonal tiles
+    var y =  Math.floor(ry/tileHeight); // divide by row height
+    var xOffset = y%2==0 ? tileWidth/2 : 0;
+    var x =  Math.floor((rx-xOffset)/tileWidth); // offset every other col and divide by width
+
+    if(x<0) x=0;
+    if(x>=Grid.array[0].length) x=Grid.array[0].length-1;
+    if(y<0) y=0;
+    if(y>=Grid.array.length) y=Grid.array.length-1;
+
+    Mouse.x = x;
+    Mouse.y = y;
 };
+
 var getMousedTiles = function(event){
 
 	// DO DA BLINE.
