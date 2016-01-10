@@ -2,10 +2,11 @@
 ![](http://i.imgur.com/Illmtbb.gif)
 
 An interactive guide to thinking in systems.
-**[READ/PLAY ORIGINAL HERE](http://ncase.me/simulating)**
-**[READ/PLAY AUTOMATILE VERSION HERE](http://automatiles.com/sim/emoji)**
+
+**READ/PLAY [ORIGINAL HERE](http://ncase.me/simulating) OR THE [AUTOMATILE VERSION HERE](http://automatiles.com/sim/emoji)**
 
 Made by Nicky Case: [@ncasenmare](https://twitter.com/ncasenmare) | [ncase.me](http://ncase.me)
+
 Modified by Jonathan Bobrow: [@jonathanbobrow](https://twitter.com/jonathanbobrow) | [jonbobrow.com](http://jonbobrow.com)
 
 **AutomaTiles**
